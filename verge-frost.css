@@ -1,5 +1,5 @@
 /* =========================================================
-   Clash-verge-frost  by zzh
+   Clash Verge Frost · ZZH
    ========================================================= */
 
 :root {
@@ -527,4 +527,277 @@ svg *,
   --vscode-editorGutter-borderNumberColor: rgba(255, 255, 255, 0.45) !important;
   --vscode-editorLineNumber-foreground: rgba(255, 255, 255, 0.45) !important;
   --vscode-editorLineNumber-activeForeground: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* =========================================================
+   12. 浅色模式适配
+   仅当 Clash Verge 主题模式为「系统」且系统为浅色时生效
+   ========================================================= */
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --cv-sidebar-bg: rgba(255, 255, 255, 0.75);      /* 侧边栏底色：更实 */
+    --cv-text: rgba(15, 25, 45, 0.96);               /* 全局文字：更深 */
+    --cv-list-glass-bg: rgba(255, 255, 255, 0.85);   /* 下拉列表：更白 */
+    --cv-glass-border: rgba(0, 0, 0, 0.10);          /* 毛玻璃边框：更明显 */
+    --cv-accent: rgba(60, 100, 220, 0.85);           /* 主色 */
+    --cv-accent-strong: #0a84ff;                     /* 强主色 */
+  }
+
+  html,
+  body {
+    background: #eef2f8 !important;
+  }
+
+  /* 浅色模式壁纸
+     想换图 → 改下面 URL
+     想调糊度 → 改 blur 数值
+     想调亮度 → 改 brightness */
+  body::before {
+    background: url('https://cdn.nodeimage.com/i/8KuMVLS4ab168acXCJDAYYzFU24IOjAt.webp') center / cover no-repeat !important;
+    filter: blur(10px) brightness(1.08) saturate(80%) !important;
+    -webkit-filter: blur(10px) brightness(1.08) saturate(80%) !important;
+  }
+
+  /* 浅色雾蒙版：浓度 0.62，压住壁纸让文字更清晰
+     想更白 → 加大；想看到壁纸 → 减小 */
+  body::after {
+    background: rgba(248, 250, 255, 0.62) !important;
+  }
+
+  /* 侧边栏：白色玻璃 + 右侧阴影，与主区域形成明显分区 */
+  .MuiDrawer-paper,
+  aside,
+  [class*="sidebar"],
+  [class*="Sidebar"] {
+    background: rgba(255, 255, 255, 0.75) !important;
+    border-right: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 2px 0 16px rgba(0, 0, 0, 0.05) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+  }
+
+  /* 全局文字：深蓝黑 + 淡白阴影，提升对比度 */
+  *:not(.the-delay):not(.MuiChip-root):not(.MuiChip-root *) {
+    color: rgba(15, 25, 45, 0.96) !important;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.80) !important;
+  }
+
+  .the-delay {
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.80) !important;
+  }
+
+  /* 图标跟随文字颜色 */
+  svg,
+  svg *,
+  .MuiSvgIcon-root,
+  .MuiSvgIcon-root * {
+    color: inherit !important;
+  }
+
+  /* 输入框：白玻璃 + 淡边 */
+  .MuiInputBase-root,
+  input,
+  textarea {
+    background: rgba(255, 255, 255, 0.75) !important;
+    border: 1px solid rgba(0, 0, 0, 0.10) !important;
+    color: rgba(15, 25, 45, 0.96) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+
+  /* 菜单 / Popover：白玻璃 */
+  .MuiMenu-paper,
+  .MuiPopover-paper {
+    background: rgba(255, 255, 255, 0.92) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+  }
+
+  .MuiMenu-paper .MuiMenuItem-root:hover,
+  .MuiPopover-paper .MuiMenuItem-root:hover {
+    background: rgba(0, 0, 0, 0.04) !important;
+  }
+
+  ul.MuiList-root[role="listbox"] > li.MuiMenuItem-root:hover,
+  ul.MuiList-root[role="listbox"] > li.MuiMenuItem-root.Mui-focusVisible {
+    background: rgba(0, 0, 0, 0.05) !important;
+  }
+
+  ul.MuiList-root[role="listbox"] > li.MuiMenuItem-root.Mui-selected {
+    background: rgba(60, 100, 220, 0.12) !important;
+    box-shadow: inset 2px 0 0 rgba(60, 100, 220, 0.75) !important;
+  }
+
+  ul.MuiList-root[role="listbox"] > li.MuiMenuItem-root.Mui-selected:hover {
+    background: rgba(60, 100, 220, 0.18) !important;
+  }
+
+  @supports selector(:has(*)) {
+    .MuiPaper-root:has(ul.MuiList-root[role="listbox"]),
+    .MuiMenu-paper:has(ul.MuiList-root[role="listbox"]),
+    .MuiPopover-paper:has(ul.MuiList-root[role="listbox"]),
+    body:has(button[role="combobox"][aria-expanded="true"]) ul.MuiList-root[role="listbox"],
+    .MuiMenu-paper:has(ul.MuiMenu-list[role="listbox"]),
+    .MuiPopover-paper:has(ul.MuiMenu-list[role="listbox"]) {
+      background: rgba(255, 255, 255, 0.90) !important;
+      border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    }
+  }
+
+  /* Dialog：白玻璃 */
+  .MuiDialog-paper {
+    background: rgba(255, 255, 255, 0.88) !important;
+    border: 1px solid rgba(0, 0, 0, 0.10) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+  }
+
+  /* 遮罩：浅灰蓝 */
+  .MuiBackdrop-root:not(.MuiBackdrop-invisible),
+  .MuiModal-backdrop:not(.MuiBackdrop-invisible) {
+    background-color: rgba(180, 195, 220, 0.35) !important;
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+  }
+
+  /* Tooltip 保持深色（浅底上白字更清楚） */
+  .MuiTooltip-tooltip {
+    background: rgba(30, 40, 60, 0.90) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+  }
+
+  /* Switch 开关 */
+  .MuiSwitch-track {
+    background-color: rgba(0, 0, 0, 0.20) !important;
+  }
+  .MuiSwitch-thumb {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+  }
+  .MuiSwitch-root .Mui-checked + .MuiSwitch-track {
+    background-color: rgba(10, 132, 255, 0.60) !important;
+  }
+  .MuiSwitch-root .Mui-checked .MuiSwitch-thumb {
+    background-color: #ffffff !important;
+  }
+
+  /* 默认 Chip */
+  .MuiChip-root.MuiChip-colorDefault,
+  .MuiChip-root:not([class*="MuiChip-color"]) {
+    background-color: rgba(0, 0, 0, 0.06) !important;
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  }
+  .MuiChip-root.MuiChip-colorDefault .MuiChip-label,
+  .MuiChip-root:not([class*="MuiChip-color"]) .MuiChip-label {
+    color: rgba(15, 25, 45, 0.92) !important;
+  }
+
+  /* 彩色 Chip：浅色下底色实一点、文字深一点，才看得清 */
+  .MuiChip-colorSuccess {
+    background-color: rgba(76, 175, 80, 0.14) !important;
+    border-color: rgba(60, 140, 70, 0.60) !important;
+  }
+  .MuiChip-colorSuccess .MuiChip-label { color: rgba(30, 110, 40, 0.95) !important; }
+
+  .MuiChip-colorError {
+    background-color: rgba(255, 82, 82, 0.14) !important;
+    border-color: rgba(200, 50, 50, 0.60) !important;
+  }
+  .MuiChip-colorError .MuiChip-label { color: rgba(180, 30, 30, 0.95) !important; }
+
+  .MuiChip-colorWarning {
+    background-color: rgba(255, 183, 77, 0.16) !important;
+    border-color: rgba(200, 140, 50, 0.60) !important;
+  }
+  .MuiChip-colorWarning .MuiChip-label { color: rgba(150, 100, 20, 0.95) !important; }
+
+  .MuiChip-colorInfo,
+  .MuiChip-colorPrimary {
+    background-color: rgba(10, 132, 255, 0.14) !important;
+    border-color: rgba(10, 100, 200, 0.60) !important;
+  }
+  .MuiChip-colorInfo .MuiChip-label,
+  .MuiChip-colorPrimary .MuiChip-label { color: rgba(10, 80, 180, 0.95) !important; }
+
+  .MuiChip-colorSecondary {
+    background-color: rgba(180, 120, 255, 0.14) !important;
+    border-color: rgba(140, 90, 200, 0.60) !important;
+  }
+  .MuiChip-colorSecondary .MuiChip-label { color: rgba(110, 60, 180, 0.95) !important; }
+
+  .MuiChip-label {
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.70) !important;
+  }
+
+  /* 按钮组选中 */
+  .MuiButtonGroup-root .MuiButton-contained {
+    background-color: rgba(10, 132, 255, 0.18) !important;
+    box-shadow: inset 0 0 0 1px rgba(10, 132, 255, 0.70) !important;
+    color: rgba(10, 60, 160, 0.95) !important;
+  }
+  .MuiButtonGroup-root .MuiButton-contained:hover {
+    background-color: rgba(10, 132, 255, 0.26) !important;
+    box-shadow: inset 0 0 0 1px rgba(10, 132, 255, 0.85) !important;
+  }
+
+  /* 侧边栏选中条 */
+  .MuiListItem-root.Mui-selected,
+  .MuiListItemButton-root.Mui-selected,
+  .MuiTab-root.Mui-selected,
+  [aria-pressed="true"] {
+    box-shadow: inset 2px 0 0 rgba(60, 100, 220, 0.85) !important;
+  }
+
+  /* Monaco 编辑器：浅色模式下用完全不透明的深色，
+     作为内嵌"代码卡片"，避免透出白色 Dialog 造成浑浊 */
+  .monaco-editor {
+    --vscode-editor-background: #0d1a33 !important;         /* 代码区 */
+    --vscode-editorGutter-background: #0a1428 !important;   /* 行号区，稍深一点形成区分 */
+    --vscode-editorStickyScroll-background: #0d1a33 !important; /* 粘性滚动区 */
+  }
+
+  /* 编辑器圆角，让它像一张内嵌卡片 */
+  .MuiDialogContent-root .monaco-editor {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+  }
+
+  /* 滚动条 */
+  ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.04); }
+  ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.18); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.28); }
+}
+
+/* =========================================================
+   13. Monaco 编辑器文字清理（深色 / 浅色通用）
+   —— 放在最末尾，特异性最高，压过上面所有 text-shadow 规则
+   ========================================================= */
+
+html body #root .monaco-editor,
+html body #root .monaco-editor *,
+html body #root .monaco-editor .view-lines,
+html body #root .monaco-editor .view-lines *,
+html body #root .monaco-editor .view-line,
+html body #root .monaco-editor .view-line span,
+html body #root .monaco-editor .view-line span span,
+html body #root .monaco-editor .view-line span span span,
+html body #root .monaco-editor [class^="mtk"],
+html body #root .monaco-editor [class*=" mtk"],
+html body #root .monaco-editor .margin-view-overlays,
+html body #root .monaco-editor .margin-view-overlays * {
+  text-shadow: none !important;
+  filter: none !important;
+  -webkit-text-stroke: 0 !important;
+}
+
+/* 字体渲染：用系统默认抗锯齿，不要强制 antialiased
+   antialiased 会让浅色文字在深底上发虚，形成"外发光"的错觉 */
+html body #root .monaco-editor .view-line,
+html body #root .monaco-editor .view-line * {
+  -webkit-font-smoothing: auto !important;
+  -moz-osx-font-smoothing: auto !important;
+  text-rendering: geometricPrecision !important;
 }
