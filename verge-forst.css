@@ -1,0 +1,530 @@
+/* =========================================================
+   Clash Verge · 透明壁纸 + 玻璃拟态 UI
+   ========================================================= */
+
+:root {
+  /* ===== 侧边栏 ===== */
+  --cv-sidebar-bg: rgba(5, 20, 48, 0.82);           /* 侧边栏底色，数字越大越不透明 */
+
+  /* ===== 全局文字 ===== */
+  --cv-text: rgba(255, 255, 255, 0.95);             /* 全局文字颜色，最后一位是透明度 */
+
+  /* ===== 下拉列表毛玻璃 ===== */
+  --cv-list-glass-bg: rgba(8, 18, 35, 0.30);        /* 下拉列表底色，越大越暗 */
+  --cv-list-glass-blur: 16px;                       /* 下拉列表模糊强度，越大越糊 */
+  --cv-glass-border: rgba(255, 255, 255, 0.14);     /* 毛玻璃边框颜色 */
+
+  /* ===== 主题色 ===== */
+  --cv-accent: rgba(94, 129, 244, 0.80);            /* 主色：选中条、左侧蓝条 */
+  --cv-accent-strong: #0a84ff;                      /* 强主色：Badge、焦点框 */
+  --cv-danger:  #ff5252;                            /* 危险色：错误提示 */
+  --cv-success: #4caf50;                            /* 成功色 */
+  --cv-warning: #ffb74d;                            /* 警告色 */
+}
+
+/* =========================================================
+   1. 壁纸与 Root
+   ========================================================= */
+
+html {
+  margin: 0 !important;
+  min-height: 100% !important;
+  position: relative !important;
+  isolation: isolate !important;
+  background: #07152f !important;
+  transition: none !important;
+}
+
+/* 注意：body 上不能出现 filter / backdrop-filter / transform，
+   否则 body::before 的 fixed 会失效 */
+body {
+  margin: 0 !important;
+  min-height: 100vh !important;
+  position: relative !important;
+  isolation: isolate !important;
+  background: #07152f !important;
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+/* 壁纸层 */
+body::before {
+  content: "" !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  /* 换壁纸改这里 */
+  background: url('https://cdn.nodeimage.com/i/NXm8f5OgoYZ58eUvDgC2Ie9IiN4FoI1P.webp') center / cover no-repeat !important;
+  /* 壁纸效果：blur 越大越糊；brightness 越大越亮；saturate 越大越艳 */
+  filter: blur(10px) brightness(0.72) saturate(120%) !important;
+  -webkit-filter: blur(10px) brightness(0.72) saturate(120%) !important;
+  transform: translateZ(0) !important;
+}
+
+/* 暗雾蒙版：最后一位越大越暗、文字越清晰 */
+body::after {
+  content: "" !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  background: rgba(5, 15, 35, 0.40) !important;
+}
+
+#root {
+  position: relative !important;
+  z-index: 1 !important;
+  min-height: 100vh !important;
+  opacity: 1 !important;
+  background: transparent !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  transition: none !important;
+}
+
+/* =========================================================
+   2. 全局透明化
+   —— 排除图标 / Chip / Switch / Progress / Avatar / 媒体 / Monaco / 菜单项
+   —— :not(.MuiListItem-root > div:empty) 用来保住设置面板里的颜色预览方块
+   ========================================================= */
+
+*:not(body):not(html):not(svg):not(svg *):not(.MuiSvgIcon-root):not(.MuiSvgIcon-root *):not(.MuiBadge-root):not(.MuiBadge-root *):not(.MuiChip-root):not(.MuiChip-root *):not(.MuiSwitch-thumb):not(.MuiSwitch-track):not(.MuiLinearProgress-root):not(.MuiLinearProgress-bar):not(.MuiAvatar-root):not(.MuiAvatar-root *):not(img):not(video):not(canvas):not(iframe):not(.monaco-editor):not(.monaco-editor *):not(.MuiMenuItem-root):not(.MuiListItem-root > div:empty) {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* =========================================================
+   3. Card / Paper
+   ========================================================= */
+
+.MuiPaper-root:not(.MuiDialog-paper):not(.MuiMenu-paper):not(.MuiPopover-paper),
+.MuiCard-root {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transition: none !important;
+}
+
+/* =========================================================
+   4. 按钮
+   ========================================================= */
+
+.MuiButton-root,
+.MuiIconButton-root,
+.MuiToggleButton-root,
+.MuiTab-root,
+button {
+  background: transparent !important;
+  border-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transition: none !important;
+}
+
+li.MuiMenuItem-root,
+.MuiButtonBase-root {
+  background: transparent !important;
+}
+
+li.MuiMenuItem-root {
+  transition: background-color 0.12s ease !important;
+}
+
+.MuiTouchRipple-root {
+  opacity: 0.35 !important;
+}
+
+#root :focus-visible {
+  outline: 2px solid var(--cv-accent-strong) !important;
+  outline-offset: 2px !important;
+}
+
+/* 按钮组里选中的按钮：蓝色底 + 白框
+   例：主题模式（浅色 / 深色 / 系统）
+   - 0.20：蓝底浓度
+   - 1.0px：白框粗细
+   - 0.35：白框透明度，越大越亮 */
+.MuiButtonGroup-root .MuiButton-contained {
+  background-color: rgba(10, 132, 255, 0.20) !important;
+  box-shadow: inset 0 0 0 1.0px rgba(255, 255, 255, 0.35) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+.MuiButtonGroup-root .MuiButton-contained:hover {
+  background-color: rgba(10, 132, 255, 0.28) !important;
+  box-shadow: inset 0 0 0 1.0px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* =========================================================
+   5. 侧边栏 / 顶部导航 / 列表
+   ========================================================= */
+
+.MuiDrawer-paper,
+aside,
+[class*="sidebar"],
+[class*="Sidebar"] {
+  background: var(--cv-sidebar-bg) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.07) !important;
+  box-shadow: none !important;
+}
+
+.MuiAppBar-root {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.MuiListItem-root,
+.MuiListItemButton-root {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+/* 侧边栏 / Tab 选中态：左侧 2px 主色条 */
+.MuiListItem-root.Mui-selected,
+.MuiListItemButton-root.Mui-selected,
+.MuiTab-root.Mui-selected,
+[aria-pressed="true"] {
+  background: transparent !important;
+  box-shadow: inset 2px 0 0 var(--cv-accent) !important;
+}
+
+/* =========================================================
+   6. 菜单 / Popover 毛玻璃
+   ========================================================= */
+
+.MuiMenu-paper,
+.MuiPopover-paper {
+  background: rgba(0, 0, 0, 0.78) !important;      /* 菜单底色，越大越暗 */
+  backdrop-filter: blur(10px) !important;          /* 菜单模糊强度 */
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.40) !important;
+}
+
+.MuiMenu-paper .MuiMenuItem-root:hover,
+.MuiPopover-paper .MuiMenuItem-root:hover {
+  background: rgba(255, 255, 255, 0.06) !important; /* 普通菜单项悬停高亮 */
+}
+
+ul.MuiList-root[role="listbox"] > li.MuiMenuItem-root:hover,
+ul.MuiList-root[role="listbox"] > li.MuiMenuItem-root.Mui-focusVisible {
+  background: rgba(255, 255, 255, 0.08) !important; /* 下拉项悬停高亮 */
+}
+
+ul.MuiList-root[role="listbox"] > li.MuiMenuItem-root.Mui-selected {
+  background: rgba(94, 129, 244, 0.15) !important;  /* 下拉项选中底色 */
+  box-shadow: inset 2px 0 0 rgba(94, 129, 244, 0.75) !important;
+}
+
+ul.MuiList-root[role="listbox"] > li.MuiMenuItem-root.Mui-selected:hover {
+  background: rgba(94, 129, 244, 0.20) !important;
+}
+
+ul.MuiList-root[role="listbox"] {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+@supports selector(:has(*)) {
+  .MuiPaper-root:has(ul.MuiList-root[role="listbox"]),
+  .MuiMenu-paper:has(ul.MuiList-root[role="listbox"]),
+  .MuiPopover-paper:has(ul.MuiList-root[role="listbox"]) {
+    background: var(--cv-list-glass-bg) !important;
+    backdrop-filter: blur(var(--cv-list-glass-blur)) saturate(125%) !important;
+    -webkit-backdrop-filter: blur(var(--cv-list-glass-blur)) saturate(125%) !important;
+    border: 1px solid var(--cv-glass-border) !important;
+    border-radius: 10px !important;                  /* 下拉列表圆角 */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.38) !important;
+    overflow: hidden !important;
+  }
+
+  body:has(button[role="combobox"][aria-expanded="true"])
+  ul.MuiList-root[role="listbox"] {
+    background: rgba(8, 18, 35, 0.28) !important;
+    backdrop-filter: blur(16px) saturate(125%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(125%) !important;
+    border: 1px solid var(--cv-glass-border) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.38) !important;
+    overflow: hidden !important;
+  }
+
+  .MuiMenu-paper:has(ul.MuiMenu-list[role="listbox"]),
+  .MuiPopover-paper:has(ul.MuiMenu-list[role="listbox"]) {
+    background: rgba(8, 18, 35, 0.28) !important;
+    backdrop-filter: blur(20px) saturate(128%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(128%) !important;
+    border: 1px solid var(--cv-glass-border) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.38) !important;
+    overflow: hidden !important;
+  }
+}
+
+/* =========================================================
+   7. 输入框 / Dialog / Backdrop / Tooltip
+   ========================================================= */
+
+/* 输入框底色，想更暗改 rgba(0,0,0,.18) */
+.MuiInputBase-root,
+input,
+textarea {
+  background: rgba(0, 0, 0, 0.18) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Dialog 弹窗：底色、模糊、边框 */
+.MuiDialog-paper {
+  background: rgba(0, 0, 0, 0.38) !important;
+  backdrop-filter: blur(12px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(120%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45) !important;
+}
+
+.MuiDialog-container {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 弹窗背景遮罩：越大越暗 */
+.MuiBackdrop-root:not(.MuiBackdrop-invisible),
+.MuiModal-backdrop:not(.MuiBackdrop-invisible) {
+  background-color: rgba(0, 0, 0, 0.45) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+.MuiBackdrop-invisible {
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* 悬浮提示：底色、模糊、边框 */
+.MuiTooltip-tooltip {
+  background: rgba(0, 0, 0, 0.65) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.40) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* =========================================================
+   8. Chip 标签
+   —— 默认：玻璃样；彩色：透明底 + 彩边 + 彩字
+   ========================================================= */
+
+/* 默认 chip */
+.MuiChip-root.MuiChip-colorDefault,
+.MuiChip-root:not([class*="MuiChip-color"]) {
+  background-color: rgba(255, 255, 255, 0.08) !important; /* 底色 */
+  border: 1px solid rgba(255, 255, 255, 0.14) !important; /* 边框 */
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+}
+
+.MuiChip-root.MuiChip-colorDefault:hover,
+.MuiChip-root:not([class*="MuiChip-color"]):hover {
+  background-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+.MuiChip-root.MuiChip-colorDefault .MuiChip-label,
+.MuiChip-root:not([class*="MuiChip-color"]) .MuiChip-label {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+/* 彩色 chip 通用：0.10 = 底色浓度，0.55 = 边框浓度，0.95 = 文字浓度
+   想更淡就一起调小，想更醒目就一起调大 */
+
+/* Success 绿 */
+.MuiChip-colorSuccess {
+  background-color: rgba(76, 175, 80, 0.10) !important;
+  border: 1px solid rgba(76, 175, 80, 0.55) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  box-shadow: none !important;
+}
+.MuiChip-colorSuccess .MuiChip-label,
+.MuiChip-colorSuccess .MuiChip-icon,
+.MuiChip-colorSuccess .MuiChip-deleteIcon { color: rgba(120, 220, 130, 0.95) !important; }
+
+/* Error 红 */
+.MuiChip-colorError {
+  background-color: rgba(255, 82, 82, 0.10) !important;
+  border: 1px solid rgba(255, 82, 82, 0.55) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  box-shadow: none !important;
+}
+.MuiChip-colorError .MuiChip-label,
+.MuiChip-colorError .MuiChip-icon,
+.MuiChip-colorError .MuiChip-deleteIcon { color: rgba(255, 130, 130, 0.95) !important; }
+
+/* Warning 黄 */
+.MuiChip-colorWarning {
+  background-color: rgba(255, 183, 77, 0.10) !important;
+  border: 1px solid rgba(255, 183, 77, 0.55) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  box-shadow: none !important;
+}
+.MuiChip-colorWarning .MuiChip-label,
+.MuiChip-colorWarning .MuiChip-icon,
+.MuiChip-colorWarning .MuiChip-deleteIcon { color: rgba(255, 200, 120, 0.95) !important; }
+
+/* Info 蓝 */
+.MuiChip-colorInfo {
+  background-color: rgba(10, 132, 255, 0.10) !important;
+  border: 1px solid rgba(10, 132, 255, 0.55) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  box-shadow: none !important;
+}
+.MuiChip-colorInfo .MuiChip-label,
+.MuiChip-colorInfo .MuiChip-icon,
+.MuiChip-colorInfo .MuiChip-deleteIcon { color: rgba(120, 180, 255, 0.95) !important; }
+
+/* Primary 主色 */
+.MuiChip-colorPrimary {
+  background-color: rgba(94, 129, 244, 0.10) !important;
+  border: 1px solid rgba(94, 129, 244, 0.55) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  box-shadow: none !important;
+}
+.MuiChip-colorPrimary .MuiChip-label,
+.MuiChip-colorPrimary .MuiChip-icon,
+.MuiChip-colorPrimary .MuiChip-deleteIcon { color: rgba(150, 175, 255, 0.95) !important; }
+
+/* Secondary 次色 */
+.MuiChip-colorSecondary {
+  background-color: rgba(180, 120, 255, 0.10) !important;
+  border: 1px solid rgba(180, 120, 255, 0.55) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  box-shadow: none !important;
+}
+.MuiChip-colorSecondary .MuiChip-label,
+.MuiChip-colorSecondary .MuiChip-icon,
+.MuiChip-colorSecondary .MuiChip-deleteIcon { color: rgba(200, 160, 255, 0.95) !important; }
+
+/* 所有 chip 文字阴影，保证在浅色壁纸上也看得清 */
+.MuiChip-label {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.60) !important;
+}
+
+.MuiChip-icon,
+.MuiChip-deleteIcon,
+.MuiChip-avatar {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: inline-flex !important;
+}
+
+/* =========================================================
+   9. 全局文字 / 图标 / 状态色 / 滚动条
+   ========================================================= */
+
+/* 全局文字颜色：排除延迟数字和 Chip，让它们保留自己的颜色
+   想改全局文字颜色，改 :root 的 --cv-text */
+*:not(.the-delay):not(.MuiChip-root):not(.MuiChip-root *) {
+  color: var(--cv-text) !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.50) !important; /* 文字阴影，越大越清晰 */
+}
+
+/* 延迟数字（如节点延迟）：保留它自己的绿/黄/红，只加重阴影 */
+.the-delay {
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.70) !important;
+  font-weight: 600 !important;
+}
+
+svg,
+svg *,
+.MuiSvgIcon-root,
+.MuiSvgIcon-root * {
+  color: inherit !important;
+  fill: currentColor !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.Mui-error,
+.Mui-error *,
+.MuiFormHelperText-root.Mui-error { color: var(--cv-danger) !important; }
+
+.Mui-success,
+.Mui-success * { color: var(--cv-success) !important; }
+
+.Mui-warning,
+.Mui-warning * { color: var(--cv-warning) !important; }
+
+.Mui-disabled,
+.Mui-disabled * { color: rgba(255, 255, 255, 0.38) !important; }
+
+/* 滚动条：宽度、轨道色、滑块色 */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.12); }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.30); }
+
+/* =========================================================
+   10. 首页卡片选中：蓝色描边
+   ========================================================= */
+
+.MuiPaper-root.MuiPaper-elevation2:has(> svg.MuiSvgIcon-root):has(> p.MuiTypography-root) {
+  border: 1px solid #0a84ff !important;   /* 描边颜色 */
+  border-radius: 8px !important;          /* 圆角 */
+}
+
+/* =========================================================
+   11. Monaco 编辑器（CSS 注入编辑器）
+   ========================================================= */
+
+.monaco-editor {
+  /* 三处背景，改颜色就改这三行
+     alpha 越大越实，越小越透 */
+  --vscode-editor-background:          rgba(5, 15, 35, 0.4) !important; /* 代码区 */
+  --vscode-editorGutter-background:    rgba(5, 15, 35, 0.4) !important; /* 行号区 */
+  --vscode-editorStickyScroll-background: rgba(5, 15, 35, 0.4) !important; /* 粘性滚动区 */
+
+  /* 粘性滚动区 hover 高亮 / 底部分隔线 */
+  --vscode-editorStickyScrollHover-background: rgba(255, 255, 255, 0.06) !important;
+  --vscode-editorStickyScroll-border: rgba(255, 255, 255, 0.08) !important;
+
+  /* 行号颜色：普通行 / 当前行 */
+  --vscode-editorGutter-borderNumberColor: rgba(255, 255, 255, 0.45) !important;
+  --vscode-editorLineNumber-foreground: rgba(255, 255, 255, 0.45) !important;
+  --vscode-editorLineNumber-activeForeground: rgba(255, 255, 255, 0.95) !important;
+}
